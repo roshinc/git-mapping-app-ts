@@ -9,8 +9,8 @@ const createDir = (dir: string) => {
   }
 };
 
-describe('findDirectories', () => {
-  const rootDir = path.join(__dirname, 'test-root');
+describe("findDirectories", () => {
+  const rootDir = path.join(__dirname, "test-root");
 
   beforeAll(() => {
     createDir(rootDir);
@@ -27,10 +27,10 @@ describe('findDirectories', () => {
     fs.rmSync(rootDir, { recursive: true, force: true });
   });
 
-  it('should return directories containing the subpath', () => {
-    const subPath = 'subpath';
-    const dir1 = path.join(rootDir, 'dir1');
-    const dir2 = path.join(rootDir, 'dir2');
+  it("should return directories containing the subpath", () => {
+    const subPath = "subpath";
+    const dir1 = path.join(rootDir, "dir1");
+    const dir2 = path.join(rootDir, "dir2");
     const subDir1 = path.join(dir1, subPath);
 
     createDir(dir1);
@@ -42,14 +42,14 @@ describe('findDirectories', () => {
     expect(result).toEqual([dir1]);
   });
 
-  it('should return directories containing the subpath in nested directories', () => {
-    const subPath = 'subpath';
-    const dir1 = path.join(rootDir, 'dir1');
-    const subDir1 = path.join(dir1, 'subdir1');
+  it("should return directories containing the subpath in nested directories", () => {
+    const subPath = "subpath";
+    const dir1 = path.join(rootDir, "dir1");
+    const subDir1 = path.join(dir1, "subdir1");
     const subDir1SubPath = path.join(subDir1, subPath);
 
-    const dir2 = path.join(rootDir, 'dir2');
-    const subDir3 = path.join(dir2, 'subdir3');
+    const dir2 = path.join(rootDir, "dir2");
+    const subDir3 = path.join(dir2, "subdir3");
     const subDir3SubPath = path.join(subDir3, subPath);
 
     createDir(subDir1);
