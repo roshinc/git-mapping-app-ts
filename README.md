@@ -7,6 +7,14 @@ This project is designed to map Git repositories to workspaces. It includes func
 1. Clone the repository
 2. Install dependencies with `npm install`
 
+## Running the Project
+
+Before running the project, you need to build the TypeScript files by running the command `npm run build`. This will compile the TypeScript code and generate the `index.js` file in the `dist` folder.
+
+Once the build is complete, you can start the project using the command `node dist/index.js`.
+
+Make sure to update the `.env` file based on the `.env.example` file in your project before running the project.
+
 ## Running the tests
 
 Run the tests using the command `npm run test`.
