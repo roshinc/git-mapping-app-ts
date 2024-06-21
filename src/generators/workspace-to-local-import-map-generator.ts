@@ -2,9 +2,10 @@ import fs from "fs";
 import path from "path";
 
 import logger from "../utils/logger.js";
-import {findDirectories} from "../utils/files_utils.js";
-import {getPathFromFile} from "../utils/hex_utils.js";
+import { findDirectories } from "../utils/files_utils.js";
+import { getPathFromFile } from "../utils/hex_utils.js";
 
+import { WorkspaceMap } from "../utils/types.js";
 
 /**
  * Generate a mapping of workspace directories to their imported project paths.
@@ -12,7 +13,7 @@ import {getPathFromFile} from "../utils/hex_utils.js";
  * @param {string} rootDir - The root directory to search for workspace directories.
  * @returns {Map<string, string[]>} A map of workspace directories to their imported project paths.
  */
-export const generateWorkspaceToImportMap = (rootDir: string): Map<string, string[]> => {
+export const generateWorkspaceToImportMap = (rootDir: string): WorkspaceMap => {
     const workspaceToImportMap = new Map<string, string[]>();
 
     // Find all workspace directories
@@ -61,7 +62,7 @@ const processWorkspaceDirectory = (workspaceDir: string): string[] => {
         fs.statSync(pluginsPath).isDirectory()
     ) {
         return fs
-            .readdirSync(pluginsPath, {withFileTypes: true})
+            .readdirSync(pluginsPath, { withFileTypes: true })
             .filter((projectDir) => {
                 // if the project is hidden, ignore it
                 if (projectDir.name.startsWith(".")) {

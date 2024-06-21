@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 
 import logger from "../utils/logger.js";
+import { GitMap, WorkspaceMap, CrosswalkMap } from "../utils/types.js";
 
 
 /**
@@ -29,17 +30,17 @@ const normalizeLocalPath = (path: string): string => {
 
 /**
  * Generate a crosswalk JSON file mapping Git URLs to Eclipse workspaces.
- * @param {Record<string, string[]>} gitUrls - An object mapping Git URLs to paths within the repositories.
- * @param {Record<string, string[]>} eclipseWorkspaces - An object mapping Eclipse workspace paths to imported projects paths.
+ * @param {GitMap} gitUrls - An object mapping Git URLs to paths within the repositories.
+ * @param {WorkspaceMap} eclipseWorkspaces - An object mapping Eclipse workspace paths to imported projects paths.
  * @param {string} outputPath - The path where the output JSON file will be saved.
  */
 export const generateCrosswalk = async (
-    gitUrls: Map<string, string[]>,
-    eclipseWorkspaces: Map<string, string[]>,
+    gitUrls: GitMap,
+    eclipseWorkspaces: WorkspaceMap,
     outputPath: string
 ): Promise<void> => {
     try {
-        const crosswalk: Record<string, Set<string>> = {};
+        const crosswalk: CrosswalkMap = {};
         logger.info("Starting to generate the crosswalk.");
 
         gitUrls.forEach((gitLocalRepoPaths, gitRemoteUrl) => {
@@ -72,14 +73,14 @@ export const generateCrosswalk = async (
  * @param {string[]} gitLocalRepoPaths - The local Git repository paths.
  * @param {string} workspacePath - The workspace path.
  * @param {string[]} workspaceGitPaths - The Git paths within the workspace.
- * @param {Record<string, Set<string>>} crosswalk - The crosswalk record to update.
+ * @param {CrosswalkMap} crosswalk - The crosswalk record to update.
  * @param {string} normalizedGitUrl - The normalized Git URL.
  */
 const processWorkspacePaths = (
     gitLocalRepoPaths: string[],
     workspacePath: string,
     workspaceGitPaths: string[],
-    crosswalk: Record<string, Set<string>>,
+    crosswalk: CrosswalkMap,
     normalizedGitUrl: string
 ) => {
     workspaceGitPaths.forEach(workspaceGitPath => {
@@ -89,7 +90,7 @@ const processWorkspacePaths = (
                 if (!crosswalk[normalizedGitUrl]) {
                     crosswalk[normalizedGitUrl] = new Set<string>();
                 }
-                crosswalk[normalizedGitUrl].add(workspacePath);
+                crosswalk[normalizedGitUrl].add(normalizedPath);
                 logger.debug(`Mapped ${workspacePath} to ${normalizedGitUrl}`);
             }
         }

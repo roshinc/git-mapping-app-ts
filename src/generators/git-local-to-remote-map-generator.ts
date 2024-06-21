@@ -3,6 +3,8 @@ import { execSync } from "child_process";
 import logger from "../utils/logger.js";
 import { findDirectories } from "../utils/files_utils.js";
 
+import { GitMap } from "../utils/types.js";
+
 
 /**
  * Generate a mapping of local git repositories to their remote URLs.
@@ -10,7 +12,7 @@ import { findDirectories } from "../utils/files_utils.js";
  * @param {string} rootDir - The root directory to search for git repositories.
  * @returns {Map<string, Array<string>>} A mapping of local git repositories to their remote URLs.
  */
-export const generateGitLocalToRemoteMap = (rootDir: string): Map<string, Array<string>> => {
+export const generateGitLocalToRemoteMap = (rootDir: string): GitMap => {
     const gitLocalToRemoteMap = new Map<string, Array<string>>();
 
     // Find all git directories
