@@ -90,7 +90,7 @@ const processWorkspacePaths = (
                 if (!crosswalk[normalizedGitUrl]) {
                     crosswalk[normalizedGitUrl] = new Set<string>();
                 }
-                crosswalk[normalizedGitUrl].add(normalizedPath);
+                crosswalk[normalizedGitUrl].add(workspacePath);
                 logger.debug(`Mapped ${workspacePath} to ${normalizedGitUrl}`);
             }
         }
