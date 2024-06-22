@@ -70,28 +70,28 @@ export const generateCrosswalk = async (
 /**
  * Process workspace paths to update the crosswalk.
  * 
- * @param {string[]} gitLocalRepoPaths - The local Git repository paths.
- * @param {string} workspacePath - The workspace path.
- * @param {string[]} workspaceGitPaths - The Git paths within the workspace.
- * @param {CrosswalkMap} crosswalk - The crosswalk record to update.
+ * @param {string[]} localGitRepoPaths - The local Git repository paths.
+ * @param {string} currentWorkspacePath - The current workspace path.
+ * @param {string[]} gitPathsInWorkspace - The Git paths within the workspace.
+ * @param {CrosswalkMap} gitUrlToWorkspaceMap - The map to update with Git URL to workspace path mappings.
  * @param {string} normalizedGitUrl - The normalized Git URL.
  */
 const processWorkspacePaths = (
-    gitLocalRepoPaths: string[],
-    workspacePath: string,
-    workspaceGitPaths: string[],
-    crosswalk: CrosswalkMap,
+    localGitRepoPaths: string[],
+    currentWorkspacePath: string,
+    gitPathsInWorkspace: string[],
+    gitUrlToWorkspaceMap: CrosswalkMap,
     normalizedGitUrl: string
 ) => {
-    workspaceGitPaths.forEach(workspaceGitPath => {
-        const normalizedPath = normalizeLocalPath(workspaceGitPath);
-        for (const gitPath of gitLocalRepoPaths) {
-            if (areEqualCaseInsensitive(normalizedPath, normalizeLocalPath(gitPath))) {
-                if (!crosswalk[normalizedGitUrl]) {
-                    crosswalk[normalizedGitUrl] = new Set<string>();
+    gitPathsInWorkspace.forEach(workspaceGitPath => {
+        const normalizedGitInWSPath = normalizeLocalPath(workspaceGitPath);
+        for (const gitPath of localGitRepoPaths) {
+            if (areEqualCaseInsensitive(normalizedGitInWSPath, normalizeLocalPath(gitPath))) {
+                if (!gitUrlToWorkspaceMap[normalizedGitUrl]) {
+                    gitUrlToWorkspaceMap[normalizedGitUrl] = new Set<string>();
                 }
-                crosswalk[normalizedGitUrl].add(workspacePath);
-                logger.debug(`Mapped ${workspacePath} to ${normalizedGitUrl}`);
+                gitUrlToWorkspaceMap[normalizedGitUrl].add(currentWorkspacePath);
+                logger.debug(`Mapped ${currentWorkspacePath} to ${normalizedGitUrl}`);
             }
         }
     });
